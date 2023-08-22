@@ -35,7 +35,16 @@ function SignInForm() {
 
       resetFormFields();
     } catch (error) {
-      console.log(error);
+      switch (error.code) {
+        case "auth/wrong-password":
+          alert("incorrect password");
+          break;
+        case "auth/user-not-found":
+          alert("no user associated with this email");
+          break;
+        default:
+          console.log(error);
+      }
     }
   };
   const handleChange = (event) => {
@@ -43,7 +52,7 @@ function SignInForm() {
     setFormFields({ ...formFields, [name]: value });
   };
   return (
-    <div className="sign-ip-container">
+    <div className="sign-in-container">
       <h2> Dont have an account ?</h2>
       <span>Sign up with your email and password</span>
       <form onSubmit={handleSubmit}>
@@ -66,6 +75,7 @@ function SignInForm() {
         <div className="buttons-container">
           <Button type="submit">Sign In</Button>
           <Button
+            type="button"
             onSubmit={handleSubmit}
             buttonType="google"
             onClick={signInWithGoogle}
